@@ -1,0 +1,493 @@
+import 'package:flutter/material.dart';
+
+class GsTachDa extends StatefulWidget {
+  @override
+  _GsTachDaState createState() => _GsTachDaState();
+}
+
+class _GsTachDaState extends State<GsTachDa> {
+  DateTime? selectedDate;
+  String? selectedMaterialType;
+  String? selectedSellerName;
+  String? selectedBatchCode;
+  String? address;
+  String? selectedCropHs;
+  String? selectedOriginHs;
+  String? selectedCoA;
+  String? selectedCoB;
+
+  List<String> materialTypes = ['ST25', 'LT260300', 'St23702'];
+  List<String> sellerNames = ['ST25', 'LT260300', 'St23702', 'DT23702'];
+  List<String> batchCodes = ['Batch 1', 'Batch 2', 'Batch 3'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Giám sát tách đá - tách màu'),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(30, 50, 20, 50),
+        child: Column(
+          children: [
+            Container(
+              color: Colors.lightGreenAccent,
+              child: Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
+                columnWidths: const {
+                  0: FlexColumnWidth(1.0),
+                  1: FlexColumnWidth(1.0),
+                },
+                children: [
+                  TableRow(
+                    children: [
+                      const TableCell(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
+                          child: Text('Số hợp đồng'),
+                        ),
+                      ),
+                      TableCell(
+                        child: TextFormField(
+                          onChanged: (value) {
+                            setState(() {
+                              address = value;
+                            });
+                          },
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.all(16.0),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      const TableCell(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
+                          child: Text('Các tờ chi tiết giám sát'),
+                        ),
+                      ),
+                      TableCell(
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.details),
+                                onPressed: () {
+                                  // Xử lý sự kiện khi nhấn nút chi tiết
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.add),
+                                onPressed: () {
+                                  // Xử lý sự kiện khi nhấn nút thêm
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ), // Các hàng khác ở đây
+                ],
+              ),
+            ),
+            Container(
+              color: Colors.lightGreenAccent,
+              child: Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
+                columnWidths: const {
+                  0: FlexColumnWidth(1.0),
+                  1: FlexColumnWidth(1.0),
+                },
+                children: [
+                  TableRow(
+                    children: [
+                      const TableCell(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(12, 8, 8, 20),
+                          child: Text('Ngày '),
+                        ),
+                      ),
+                      TableCell(
+                        child: InkWell(
+                          onTap: () {
+                            _selectDate(context);
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20.0),
+                            child: Text(
+                              selectedDate != null
+                                  ? selectedDate.toString()
+                                  : 'Chọn ngày',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            Column(
+              children: [
+                const Text(
+                  'Gạo nguyên liệu',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Container(
+                  color: Colors.lightGreenAccent,
+                  child: Table(
+                    defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
+                    columnWidths: const {
+                      0: FlexColumnWidth(1.0),
+                      1: FlexColumnWidth(1.0),
+                    },
+                    children: [
+                      TableRow(
+                        children: [
+                          const TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
+                              child: Text('Mã số lô'),
+                            ),
+                          ),
+                          TableCell(
+                            child: DropdownButtonFormField<String>(
+                              // value: selectedMaterialType,
+                              items: materialTypes.map((type) {
+                                return DropdownMenuItem<String>(
+                                  value: type,
+                                  child: Text(type),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedMaterialType = value;
+                                });
+                              },
+                              decoration: const InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 16.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          const TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
+                              child: Text('Khối lượng'),
+                            ),
+                          ),
+                          TableCell(
+                            child: TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  address = value;
+                                });
+                              },
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.all(16.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          const TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
+                              child: Text('Nơi bảo quản'),
+                            ),
+                          ),
+                          TableCell(
+                            child: TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  address = value;
+                                });
+                              },
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.all(16.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Các hàng khác ở đây
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Column(
+              children: [
+                const Text(
+                  'Gạo thành phẩm',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Container(
+                  color: Colors.lightGreenAccent,
+                  child: Table(
+                    defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
+                    columnWidths: const {
+                      0: FlexColumnWidth(1.0),
+                      1: FlexColumnWidth(1.0),
+                    },
+                    children: [
+                      TableRow(
+                        children: [
+                          const TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
+                              child: Text('Mã số lô'),
+                            ),
+                          ),
+                          TableCell(
+                            child: DropdownButtonFormField<String>(
+                              // value: selectedMaterialType,
+                              items: materialTypes.map((type) {
+                                return DropdownMenuItem<String>(
+                                  value: type,
+                                  child: Text(type),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedMaterialType = value;
+                                });
+                              },
+                              decoration: const InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 16.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          const TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
+                              child: Text('Khối lượng'),
+                            ),
+                          ),
+                          TableCell(
+                            child: TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  address = value;
+                                });
+                              },
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.all(16.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          const TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
+                              child: Text('Nơi bảo quản'),
+                            ),
+                          ),
+                          TableCell(
+                            child: TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  address = value;
+                                });
+                              },
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.all(16.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Các hàng khác ở đây
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Column(
+              children: [
+                const Text(
+                  'Phế',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Container(
+                  color: Colors.lightGreenAccent,
+                  child: Table(
+                    defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
+                    columnWidths: const {
+                      0: FlexColumnWidth(1.0),
+                      1: FlexColumnWidth(1.0),
+                    },
+                    children: [
+                      TableRow(
+                        children: [
+                          const TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
+                              child: Text('Mã số lô'),
+                            ),
+                          ),
+                          TableCell(
+                            child: DropdownButtonFormField<String>(
+                              // value: selectedMaterialType,
+                              items: materialTypes.map((type) {
+                                return DropdownMenuItem<String>(
+                                  value: type,
+                                  child: Text(type),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedMaterialType = value;
+                                });
+                              },
+                              decoration: const InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 16.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          const TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
+                              child: Text('Khối lượng'),
+                            ),
+                          ),
+                          TableCell(
+                            child: TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  address = value;
+                                });
+                              },
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.all(16.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          const TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(12, 8, 8, 8),
+                              child: Text('Nơi bảo quản'),
+                            ),
+                          ),
+                          TableCell(
+                            child: TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  address = value;
+                                });
+                              },
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.all(16.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text("Tạo mới"),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text("Cập nhật"),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                    ),
+                    child: const Text("Xoá"),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+// Lưu dữ liệu hoặc thực hiện các hành động khác
+        },
+        child: Icon(Icons.save),
+      ),
+    );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
+}
