@@ -1,4 +1,4 @@
-# kl_luagao
+# khóa luận: App Android quản lý chuỗi cung ứng lúa gạo
 1.Cài đặt môi trường. Visual studio code (dart), genymotion, xampp
 2.Down code: 
 	+api: file api sử dụng laravel
